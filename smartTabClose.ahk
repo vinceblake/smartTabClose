@@ -2,7 +2,7 @@
 
 IfExist, WhiteList.txt ; Check whether the necessary file exists.
 {
-
+ 
 	Loop, Read, whitelist.txt ; Make a comma-delineated list out of the lines in Whitelist.txt
 	{
 		If (A_Index = 1)
@@ -12,7 +12,7 @@ IfExist, WhiteList.txt ; Check whether the necessary file exists.
 	}
 
 Close:	
-	for window in ComObjCreate("Shell.Application").Windows	; Identify each open window, one by one
+	for window in ComObjCreate("Shell.Application").Windows ; Identify each open window, one by one
 	{
 		name := window.FullName ; Determine the name of the current window
 		if InStr(name,"iexplore") ; Check whether it's an IE window, and if so...
@@ -21,9 +21,11 @@ Close:
 			If URL not contains %whitelist% ; If any tabs are open to a URL not in the whitelist...
 			{
 				window.quit() ; Close it, and...
-				GoSub, Close ; Move onto the next IE window.
+				GoSub, Close ; Move onto the next IE window
 			}
+
 		}
+	Sleep 200 ; Slow down to increase reliability.
 	}
 	
 return ; If there are no more IE windows, stop.
